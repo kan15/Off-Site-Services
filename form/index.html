@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OSS Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha/css/bootstrap.css"/>
+    <style>
+        p {
+            margin-left: 105px;
+        }
+        label {
+            width: 100px;
+        }
+        label.error {
+            color: red;
+        }
+        input {
+            border : 1px solid #ccc;
+        }
+        input.error {
+            border-color: red;
+        }
+        .content {
+            padding: 15px;
+            border: 1px solid #ccc;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="content">
+                <form onsubmit="myForm()" id="testForm">
+                    <div>
+                        <label for="firstName">First name</label>
+                        <input type="text" id="firstName" required/>
+                    </div>
+                    <p id="firstNameError"></p>
+
+                    <div>
+                        <label for="lastName">Last name</label>
+                        <input type="text" id="lastName" required/>
+                    </div>
+                    <p id="lastNameError"></p>
+
+                    <div>
+                        <label for="email">Email</label>
+                        <input type="email" id="email" required/>
+                    </div>
+                    <p id="emailError"></p>
+
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let firstName;
+    let lastName;
+    let email;
+
+    const firstNameInput = document.getElementById("firstName");
+    const lastNameInput = document.getElementById("lastName");
+    const emailInput = document.getElementById("email");
+
+    const firstNameError = document.getElementById("firstNameError");
+    const lastNameError = document.getElementById("lastNameError");
+    const emailError = document.getElementById("emailError");
+
+    let validFirstName = false;
+    let validLastName = false;
+    let validEmail = false;
+
+    const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const nameRegExp = /^[a-zA-Z]+$/;
+
+    // ------------EMAIL------------
+    emailInput.onblur = function() {
+        email = document.getElementById("email").value.trim();
+        if ( email === "" || email === null) {
+            emailInput.classList.add("error");
+            emailError.textContent = "Email is required";
+        } else if (!emailRegExp.test(email)) {
+            emailInput.classList.add("error");
+            emailError.textContent = "You have entered an invalid email address!";
+        } else {
+            validEmail = true;
+        }
+    }
+    emailInput.onfocus = function() {
+        if (this.classList.contains("error")) {
+            this.classList.remove("error");
+            emailError.textContent = "";
+        }
+    }
+
+    // ------------FIRST NAME------------
+    firstNameInput.onblur = function() {
+        firstName = document.getElementById("firstName").value.trim();
+        if(firstName == "" || firstName == null) {
+            firstNameInput.classList.add("error");
+            firstNameError.textContent = "First name is required";
+        } else if (!nameRegExp.test(firstName)) {
+            firstNameInput.classList.add("error");
+            firstNameError.textContent = "First name can only consist of latin letters"
+        } else {
+            validFirstName = true;
+        }
+    }
+    firstNameInput.onfocus = function() {
+        if (this.classList.contains("error")) {
+            this.classList.remove("error");
+            firstNameError.textContent = "";
+        }
+    }
+
+    // ------------LAST NAME------------
+    lastNameInput.onblur = function() {
+        lastName = document.getElementById("lastName").value.trim();
+        if(lastName == "" || lastName == null) {
+            lastNameInput.classList.add("error");
+            lastNameError.textContent = "Last name is required";
+        } else if (!nameRegExp.test(lastName)) {
+            lastNameInput.classList.add("error");
+            lastNameError.textContent = "Last name can only consist of latin letters"
+        } else {
+            validLastName = true;
+        }
+    }
+    lastNameInput.onfocus = function() {
+        if (this.classList.contains("error")) {
+            this.classList.remove("error");
+            lastNameError.textContent = "";
+        }
+    }
+
+    function myForm() {
+        // event.preventDefault();
+        if(validFirstName && validLastName && validEmail) {
+            alert('Valide form');
+        }
+    }
+</script>
+
+</body>
+</html>
